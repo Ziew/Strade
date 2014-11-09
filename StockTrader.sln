@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader", "StockTrader\StockTrader.csproj", "{AA619F31-33FF-41EF-A95F-488240E8F21B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrader.Tests", "StockTrader.Tests\StockTrader.Tests.csproj", "{808219BB-F543-435A-B707-41ACFD5015E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionTraderTest2", "ActionTraderTest2\ActionTraderTest2.csproj", "{DB90B214-8C5D-4D9C-9AD5-5B509C4B6A3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTraderMongoService", "StockTraderMongoService\StockTraderMongoService.csproj", "{674B45BC-6C70-488B-B716-0A779749E5E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionTraderWebApi", "ActionTraderWebApi\ActionTraderWebApi.csproj", "{9749C6C7-BBE7-4B5D-8685-E80F3986D5B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockDataWebApi", "StockDataWebApi\StockDataWebApi.csproj", "{9736A831-0A16-4985-B7B2-359D73559D89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA619F31-33FF-41EF-A95F-488240E8F21B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA619F31-33FF-41EF-A95F-488240E8F21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA619F31-33FF-41EF-A95F-488240E8F21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA619F31-33FF-41EF-A95F-488240E8F21B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{808219BB-F543-435A-B707-41ACFD5015E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{808219BB-F543-435A-B707-41ACFD5015E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{808219BB-F543-435A-B707-41ACFD5015E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{808219BB-F543-435A-B707-41ACFD5015E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB90B214-8C5D-4D9C-9AD5-5B509C4B6A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB90B214-8C5D-4D9C-9AD5-5B509C4B6A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB90B214-8C5D-4D9C-9AD5-5B509C4B6A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB90B214-8C5D-4D9C-9AD5-5B509C4B6A3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{674B45BC-6C70-488B-B716-0A779749E5E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{674B45BC-6C70-488B-B716-0A779749E5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{674B45BC-6C70-488B-B716-0A779749E5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{674B45BC-6C70-488B-B716-0A779749E5E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9749C6C7-BBE7-4B5D-8685-E80F3986D5B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9749C6C7-BBE7-4B5D-8685-E80F3986D5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9749C6C7-BBE7-4B5D-8685-E80F3986D5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9749C6C7-BBE7-4B5D-8685-E80F3986D5B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9736A831-0A16-4985-B7B2-359D73559D89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9736A831-0A16-4985-B7B2-359D73559D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9736A831-0A16-4985-B7B2-359D73559D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9736A831-0A16-4985-B7B2-359D73559D89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
