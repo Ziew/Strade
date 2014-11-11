@@ -6,9 +6,37 @@ using StockTrader.Models;
 using Owin;
 using System;
 using Microsoft.Owin.Security.DataProtection;
+using Microsoft.AspNet.SignalR;
+using Microsoft.Practices.Unity.Mvc;
+using System.Collections.Generic;
+using Microsoft.Practices.Unity;
+
+
 
 namespace StockTrader
 {
+    public class SignalRUnityDependencyResolver : DefaultDependencyResolver
+    {
+        private IUnityContainer _container;
+
+        public SignalRUnityDependencyResolver(IUnityContainer container)
+        {
+            _container = container;
+        }
+
+        public override object GetService(Type serviceType)
+        {
+            if (_container.IsRegistered(serviceType)) return _container.Resolve(serviceType);
+            else return base.GetService(serviceType);
+        }
+
+        public override IEnumerable<object> GetServices(Type serviceType)
+        {
+            if (_container.IsRegistered(serviceType)) return _container.ResolveAll(serviceType);
+            else return base.GetServices(serviceType);
+        }
+
+    }
     public partial class Startup
     {
         internal static IDataProtectionProvider DataProtectionProvider { get; private set; }
@@ -21,6 +49,12 @@ namespace StockTrader
             //app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
            // app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             DataProtectionProvider = app.GetDataProtectionProvider();
+            var hubConfiguration = new HubConfiguration
+            {
+                Resolver = new SignalRUnityDependencyResolver(UnityConfig.GetConfiguredContainer()),
+
+            };
+            app.MapSignalR(hubConfiguration);
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie

@@ -11,9 +11,9 @@ namespace StockTraderMongoService.Entities
       [BsonIgnoreExtraElements]
       public class Company : MongoEntity
     {
-          public string Symbol { get; set; }
+        public string Symbol { get; set; }
         public string CompanyName { get; set; }
 
-        public double ActionPrice { get; set; }
+        public double StockPrice { get; set; }
     }
 }

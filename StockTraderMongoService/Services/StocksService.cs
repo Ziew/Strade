@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace StockTraderMongoService.Services
 {
-    public class CompanyService : EntityService<Company>
+    public class StocksService : EntityService<Stocks>
     {
-
-        public override void Update(Company entity)
+        public override void Update(Stocks entity)
         {
             throw new NotImplementedException();
         }
-
-      
     }
 }

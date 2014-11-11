@@ -1,12 +1,15 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+ 
+     margin: 0;
+
+
+  font: 18px/27px 'Oxygen', sans-serif;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+      background-color: #556270 !important;
+
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -40,3 +43,4 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+

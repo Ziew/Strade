@@ -9,9 +9,9 @@ namespace StockTraderMongoService.Entities
 {
     public class TransactionHistory : MongoEntity
     {
-        public string UserEmail { get; set; }
 
-        public Company CompanyStocks { get; set; }
+
+        public double StockPrice { get; set; }
 
         public int NumberOfStock { get; set; }
 

@@ -9,7 +9,7 @@ using StockDataWebApi.ApiRepository;
 
 namespace StockDataWebApi
 {
-    class StocksPoller
+    public class StocksPoller : IStocksPoller
     {
         private IFinancialData _financialData;
         public IObservable<Quote> StockPriceChanges { get; private set; }
@@ -23,7 +23,7 @@ namespace StockDataWebApi
         {
             StockPriceChanges = Observable.Defer(
                 () => Observable.Return(_financialData.GetFinancialDataFromCompanies().quote.ToObservable())
-).Sample(TimeSpan.FromSeconds(2))
+).Sample(TimeSpan.FromSeconds(1))
                     .Repeat()
                 .SelectMany(observable => observable)
                 .GroupBy(quote => quote.symbol)

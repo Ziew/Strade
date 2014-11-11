@@ -22,7 +22,7 @@ namespace StockTrader.Controllers
             IEnumerable<CompanyViewModel> companies = _entityService.GetAll().Select(n => new CompanyViewModel
             {
                 name = n.CompanyName,
-                price = n.ActionPrice
+       
             });
             return View(companies);
         }
@@ -38,7 +38,6 @@ namespace StockTrader.Controllers
         {
             _entityService.Create(new Company
             {
-                ActionPrice = company.price,
                 CompanyName = company.name
             });
             return Json(new {Result = "Success"});

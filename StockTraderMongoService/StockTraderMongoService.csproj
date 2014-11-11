@@ -59,6 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Stocks.cs" />
+    <Compile Include="Entities\StockWallet.cs" />
     <Compile Include="Entities\TransactionHistory.cs" />
     <Compile Include="Entities\Company.cs" />
     <Compile Include="Entities\IMongoEntity.cs" />
@@ -69,6 +71,8 @@
     <Compile Include="Services\CompanyService.cs" />
     <Compile Include="Services\EntityService.cs" />
     <Compile Include="Services\IEntityService.cs" />
+    <Compile Include="Services\StocksService.cs" />
+    <Compile Include="Services\StockWalletService.cs" />
     <Compile Include="Services\TransactionHistoryService.cs" />
   </ItemGroup>
   <ItemGroup>
