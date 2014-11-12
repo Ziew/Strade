@@ -60,12 +60,13 @@ namespace StockDataWebApi.ApiRepository
 
             var users = JObject.Parse(results).SelectToken("query").SelectToken("results").ToString();
             var d = JsonConvert.DeserializeObject<Results>(users);
+            var r = new Random();
             try
             {
                 foreach (var v in d.quote)
                 {
                     v.LastTradePriceOnly =
-                          (new Random().NextDouble() + Double.Parse(v.LastTradePriceOnly, CultureInfo.InvariantCulture))
+                          (r.NextDouble() + Double.Parse(v.LastTradePriceOnly, CultureInfo.InvariantCulture))
                              .ToString();
                 }
             }

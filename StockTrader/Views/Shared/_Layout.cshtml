@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="~/Content/metro-ui/css/metro-bootstrap.css" media="screen" type="text/css" />
     <link rel="stylesheet" href="~/Content/metro-ui/css/metro-bootstrap-responsive.css" media="screen" type="text/css" />
     <link rel="stylesheet" href="~/Content/metro-ui/css/iconFont.min.css" media="screen" type="text/css" />
- 
+
 
 </head>
 <body>
@@ -55,18 +55,22 @@
     <nav id="slide-menu">
         <ul>
 
-
-            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-            <li>@Html.ActionLink("About", "About", "Home")</li>
-            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-
-            @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-            {
-                <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
-            }
-
+            <div>
+                <li><h3 class="fg-white text-center">Profile</h3></li>
+                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
+                    <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
+                }
+            </div>
             @Html.Partial("_LoginPartial")
+            <div >
+                <li><h3 class="fg-white text-center">Profile</h3></li>
+                <li >Your Stock Value: 12340.123</li>
+                <li>You are on: <span class="fg-green">123.54</span></li>
+                <li>Your best stock: GOOG</li>
+            </div>
+
 
         </ul>
     </nav>
@@ -74,12 +78,7 @@
     <!-- Content panel -->
     <div id="content" class=" body-content">
         <div class="menu-trigger"></div>
-
         @RenderBody()
-
-
-
-
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

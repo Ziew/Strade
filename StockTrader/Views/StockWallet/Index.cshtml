@@ -12,33 +12,40 @@
     <script>
         $('#Buy').click(function (e) { //on add input button click
             e.preventDefault();
+            var Sn = parseInt($('#StockNumber').val());
+            var Cs = $(this).closest("div").attr("id").split(' ')[0];
+            var Sv = $("#" + Cs).text();
+
+
             var d = $.ajax({
                 url: "/StockWallet/Buy",
                 type: "POST",
                 dataType: "json",
-                data: { CompanySymbol: "", StockNumber: parseInt($('#StockNumber').val()), StockValue: $(this).parent().id() },
+                data: { CompanySymbol: Cs, StockNumber: Sn, StockValue: Sv },
                 success: function (data) {
                     $.map(data, function (item) {
-                       
+
                     });
-                
+
                 }
             });
 
         });
         $('#Sell').click(function (e) { //on add input button click
             e.preventDefault();
+            var Sn = parseInt($('#StockNumber').val());
+            var Cs = $(this).closest("div").attr("id").split(' ')[0];
+            var Sv = $("#" + Cs).text();
+
             var d = $.ajax({
                 url: "/StockWallet/Sell",
                 type: "POST",
                 dataType: "json",
-                data: { term: "", decisionTaskClassId: 3 },
+                data: { CompanySymbol: Cs, StockNumber: Sn, StockValue: Sv },
                 success: function (data) {
-                    var f = "";
                     $.map(data, function (item) {
-                        f += '<option value="' + item.Value + '">' + item.Text + '</option>';
+
                     });
-                    $('#Input-List').append('<select id="InputsId" name ="InputsId">' + f + '</select><button class="btn-xs btn-danger tooltip-enable remove_field" rel="tooltip" title="Usuń wejście"><i class="fa fa-trash"></i></button>');
 
                 }
             });
@@ -55,8 +62,14 @@
             });
 
             hub.on("OnNewPrice", function (statistics) {
-
-                $('#' + statistics.symbol).html(statistics.value);
+                var d = $('#' + statistics.symbol).text();
+                var f = parseFloat(d.replace(",","."));
+                var g = parseFloat(statistics.value.replace(",", "."))
+                if (f < g) {
+                    $('#' + statistics.symbol).html('<span class="fg-green">' + statistics.value  + '</span>');
+                } else {
+                    $('#' + statistics.symbol).html('<span class="fg-red">' + statistics.value + '</span>');
+                }
 
             });
         });
@@ -78,28 +91,28 @@
 
         @foreach (var item in Model)
         {
-            <div class="span4 bg-grayDark  text-center tile " id ="Metro" @item.CompanySymbol>
-                <p>
-                    <span class="fg-steel lead text-bold">@Html.DisplayFor(modelItem => item.CompanySymbol) </span>
-                    <span class="fg-white navbar-right"><i class=" icon-remove"></i> </span>
-                </p>
-                <p class="fg-white">@Html.DisplayFor(modelItem => item.CompanyName)</p>
+            <div class="span4 panel panel-default text-center tile bg-white" id="@item.CompanySymbol Metro">
+                <div class="panel-heading bg-blue">
+                    <span class="fg-white lead text-bold">@Html.DisplayFor(modelItem => item.CompanySymbol) </span>
+                    <span class="fg-red navbar-right"><i class=" icon-remove"></i> </span>
+                </div>
+                <p>@Html.DisplayFor(modelItem => item.CompanyName)</p>
 
-                <p class="fg-white">@Html.DisplayFor(modelItem => item.StocksNumber)</p>
+                <p>@Html.DisplayFor(modelItem => item.StocksNumber)</p>
 
-                <p class="fg-white"><span id=@item.CompanySymbol>@Html.DisplayFor(modelItem => item.CurrentValue)</span></p>
+                <p><span id="@item.CompanySymbol">@Html.DisplayFor(modelItem => item.CurrentValue)</span></p>
                 <a href="#" id="Sell">Sell</a>
-                <input   id="StockNumber" name="StockNumber" type="text" value="">
+                <input id="StockNumber" name="StockNumber" type="text" value="">
                 <a href="#" id="Buy">Buy</a>
             </div>
 
         }
 
     </div>
-    <div class="container row ">
-        <div class=" bg-darkCobalt tile text-center padding20 ">
-            <h2 class="fg-white">@Html.ActionLink("Add Observer", "Create")</h2>
-        </div>
-    </div>
+    @*<div class="container row ">
+            <div class=" bg-darkCobalt tile text-center padding20 ">
+                <h2 class="fg-white">@Html.ActionLink("Add Observer", "Create")</h2>
+            </div>
+        </div>*@
 </div>
 
