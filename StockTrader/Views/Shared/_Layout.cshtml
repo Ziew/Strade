@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-
+@using Microsoft.AspNet.Identity
 
 
 
@@ -13,77 +13,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
 
-    @Styles.Render("~/Content/css")
 
-    @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="~/Content/style.css" media="screen" type="text/css" />
-    <link rel="stylesheet" href="~/Content/metro-ui/css/metro-bootstrap.css" media="screen" type="text/css" />
-    <link rel="stylesheet" href="~/Content/metro-ui/css/metro-bootstrap-responsive.css" media="screen" type="text/css" />
-    <link rel="stylesheet" href="~/Content/metro-ui/css/iconFont.min.css" media="screen" type="text/css" />
+    @Scripts.Render( "~/bundles/modernizr" )
+@if ( Request.IsAuthenticated )
+{
+    @Styles.Render( "~/Content/css" )
 
-
+        <link rel="stylesheet" href="~/Content/style.css" media="screen" type="text/css" />
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/font-awesome.css" rel="stylesheet">
+}
+else
+{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet">
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
+}
 </head>
-<body>
+<body class="pace-done">
 
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 
-                        @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                            <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
-                        }
+
+    @if ( Request.IsAuthenticated )
+    {
+        @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })) {
+            @Html.AntiForgeryToken()*@
+            <div class="pace  pace-inactive">
+        <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+        <div id="wrapper">
+
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="nav-header">
+
+                            <div class="dropdown profile-element">
+                                <span>
+                                    <img alt="image" class="img-responsive" src="http://www.achievement.org/achievers/gat0/large/gat0-006.jpg">
+                                </span>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <span class="clear">
+                                        <span class="block m-t-xs">
+                                            <strong class="font-bold">
+                                                @Html.ActionLink( "Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" } )
+
+
+                                            </strong>
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="logo-element">
+                                IN+
+                            </div>
+
+                        </li>
+                        <li class="active">
+                            <a href="stockwallet"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Stock wallet</span></a>
+                        </li>
+                        <li>
+                            <a href="stockwallet"><i class="fa fa-laptop"></i> <span class="nav-label">Stock wallet</span></a>
+                        </li>
+                        <li>
+                            <a href="stockwallet"><i class="fa fa-laptop"></i> <span class="nav-label">Stock wallet</span></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Profile</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li><a href="graph_flot.html">Flot Charts</a></li>
+                                <li><a href="graph_morris.html">Morris.js Charts</a></li>
+                                <li><a href="graph_rickshaw.html">Rickshaw Charts</a></li>
+                                <li><a href="graph_chartjs.html">Chart.js</a></li>
+                                <li><a href="graph_peity.html">Peity Charts</a></li>
+                                <li><a href="graph_sparkline.html">Sparkline Charts</a></li>
+                            </ul>
+                        </li>
+
+
+
+
                     </ul>
-                    @Html.Partial("_LoginPartial")
+
+                </div>
+            </nav>
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li>
+                                <span class="m-r-sm text-muted welcome-message">Welcome to Stock Trader</span>
+                            </li>
+                            <li>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "hide" })) {
+                            @Html.AntiForgeryToken()
+                                }
+                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                <i class="fa fa-sign-out"></i> Log out
+                            </a>
+                            
+                            </li>
+                        </ul>
+
+                    </nav>
+                </div>
+                <div class="wrapper wrapper-content">
+                    <div class="row">
+                        @RenderBody()
+
+                    </div>
                 </div>
             </div>
-        </div>*@
 
-    <nav id="slide-menu">
-        <ul>
-
-            <div>
-                <li><h3 class="fg-white text-center">Profile</h3></li>
-                @if (Request.IsAuthenticated && User.IsInRole("Admin"))
-                {
-                    <li>@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin")</li>
-                    <li>@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin")</li>
-                }
-            </div>
-            @Html.Partial("_LoginPartial")
-            <div >
-                <li><h3 class="fg-white text-center">Profile</h3></li>
-                <li >Your Stock Value: 12340.123</li>
-                <li>You are on: <span class="fg-green">123.54</span></li>
-                <li>Your best stock: GOOG</li>
-            </div>
+        </div>
 
 
+    }
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink( "Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" } )</li>
+            <li>@Html.ActionLink( "Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" } )</li>
         </ul>
-    </nav>
+    @RenderBody()
+
+    }
+
+
 
     <!-- Content panel -->
-    <div id="content" class=" body-content">
-        <div class="menu-trigger"></div>
-        @RenderBody()
-    </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @Scripts.Render( "~/bundles/jquery" )
+    @Scripts.Render( "~/bundles/bootstrap" )
+    @RenderSection( "scripts", required: false )
 </body>
 
 </html>
-<script src="~/Scripts/NavBar.js"></script>
+<script src="~/Scripts/jquery.metisMenu.js"></script>
+<script src="~/Scripts/inspinia.js"></script>
