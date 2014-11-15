@@ -8,10 +8,14 @@ namespace StockTraderMongoService.Entities
 {
     public class Stocks : MongoEntity
     {
-        
+        public Stocks()
+        {
+            TransactionHistories = new List<TransactionHistory>();
+        }
         public string CompanyName { get; set; }
         public string CompanySymbol { get; set; }
         public int NumberOfStocks { get; set; }
+
         public IList<TransactionHistory> TransactionHistories { get; set; }
 
     }

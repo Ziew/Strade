@@ -1,4 +1,6 @@
-﻿using StockTraderMongoService.Entities;
+﻿using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using StockTraderMongoService.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +15,7 @@ namespace StockTraderMongoService.Services
         {
             throw new NotImplementedException();
         }
+
+       
     }
 }

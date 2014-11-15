@@ -88,16 +88,16 @@ namespace StockTrader.Controllers
         [HttpPost]
         public ActionResult Buy(TradeModel tradeModel)
         {
-            var user = _stockWalletService.GetByUser(User.Identity.Name);
+           
             var stock = new TransactionHistory
             {
                 NumberOfStock = tradeModel.StockNumber,
                 TransactionDate = DateTime.Now,
                 StockPrice = Double.Parse(tradeModel.StockValue)
             };
-         
-            
-                _stockWalletService.AddTransaction(user.ToString(),tradeModel.CompanySymbol, tradeModel.StockNumber,stock);
+
+
+            _stockWalletService.AddTransaction(User.Identity.Name, tradeModel.CompanySymbol, tradeModel.StockNumber, stock);
             
 
             return Json(new { Result = "Success" });
@@ -113,7 +113,7 @@ namespace StockTrader.Controllers
             };
 
 
-            _stockWalletService.AddTransaction(user.ToString(), tradeModel.CompanySymbol, (-1)*tradeModel.StockNumber, stock);
+            _stockWalletService.AddTransaction(User.Identity.Name, tradeModel.CompanySymbol, (-1) * tradeModel.StockNumber, stock);
 
 
             return Json(new { Result = "Success" });

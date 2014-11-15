@@ -10,12 +10,13 @@
 
     <!--SignalR script to update the chat page and send messages.-->
     <script>
-        $('#Buy').click(function (e) { //on add input button click
+        $('.Buy').click(function (e) { //on add input button click
             e.preventDefault();
-            var Sn = parseInt($('#StockNumber').val());
+           
             var Cs = $(this).closest("div").attr("id").split(' ')[0];
             var Sv = $("#" + Cs).text();
-
+            var x = '#' + $(this).closest("div").attr("id").split(' ')[1];
+            var Sn = parseInt($(x).val());
 
             var d = $.ajax({
                 url: "/StockWallet/Buy",
@@ -31,11 +32,12 @@
             });
 
         });
-        $('#Sell').click(function (e) { //on add input button click
+        $('.Sell').click(function (e) { //on add input button click
             e.preventDefault();
-            var Sn = parseInt($('#StockNumber').val());
             var Cs = $(this).closest("div").attr("id").split(' ')[0];
             var Sv = $("#" + Cs).text();
+            var x = '#' + $(this).closest("div").attr("id").split(' ')[1];
+            var Sn = parseInt($(x).val());
 
             var d = $.ajax({
                 url: "/StockWallet/Sell",
@@ -91,7 +93,7 @@
 
         @foreach (var item in Model)
         {
-            <div class="span4 panel panel-default text-center tile bg-white" id="@item.CompanySymbol Metro">
+            <div class="span4 panel panel-default text-center tile bg-white" id="@item.CompanySymbol @item.CompanyName Metro">
                 <div class="panel-heading bg-blue">
                     <span class="fg-white lead text-bold">@Html.DisplayFor(modelItem => item.CompanySymbol) </span>
                     <span class="fg-red navbar-right"><i class=" icon-remove"></i> </span>
@@ -101,9 +103,9 @@
                 <p>@Html.DisplayFor(modelItem => item.StocksNumber)</p>
 
                 <p><span id="@item.CompanySymbol">@Html.DisplayFor(modelItem => item.CurrentValue)</span></p>
-                <a href="#" id="Sell">Sell</a>
-                <input id="StockNumber" name="StockNumber" type="text" value="">
-                <a href="#" id="Buy">Buy</a>
+                <a href="#" class="Sell">Sell</a>
+                <input id="@item.CompanyName.Split(' ')[0]" name="StockNumber" type="text" value="">
+                <a href="#" class="Buy">Buy</a>
             </div>
 
         }
