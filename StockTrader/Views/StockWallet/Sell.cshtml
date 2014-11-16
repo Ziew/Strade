@@ -1,0 +1,18 @@
+﻿@model StockTrader.Models.TradeModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Add new Address</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="modal-body">
+        @Html.EditorFor(model => model.StockNumber, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-primary" type="submit" value="Add" />
+    </div>
+}

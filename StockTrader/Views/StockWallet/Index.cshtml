@@ -1,4 +1,6 @@
-﻿@model IEnumerable<StockTrader.Models.CompanyInfoForUserViewModel>
+﻿@using StockTrader.Models
+@using StockTrader.App_Start
+@model IEnumerable<StockTrader.Models.CompanyInfoForUserViewModel>
 
 @section scripts {
     <!--Script references. -->
@@ -10,9 +12,59 @@
 
     <!--SignalR script to update the chat page and send messages.-->
     <script>
+        
+        $(function () {
+
+            $.ajaxSetup({ cache: false });
+
+            $("a[data-modal]").on("click", function (e) {
+
+                // hide dropdown if any
+                $(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
+
+
+                $('#myModalContent').load(this.href, function () {
+
+
+                    $('#myModal').modal({
+                        /*backdrop: 'static',*/
+                        keyboard: true
+                    }, 'show');
+
+                    bindForm(this);
+                });
+
+                return false;
+            });
+
+
+        });
+
+        function bindForm(dialog) {
+
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //Refresh
+                            location.reload();
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm();
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
         $('.Buy').click(function (e) { //on add input button click
             e.preventDefault();
-           
+
             var Cs = $(this).closest("div").attr("id").split(' ')[0];
             var Sv = $("#" + Cs).text();
             var x = '#' + $(this).closest("div").attr("id").split(' ')[1];
@@ -65,7 +117,7 @@
 
             hub.on("OnNewPrice", function (statistics) {
                 var d = $('#' + statistics.symbol).text();
-                var f = parseFloat(d.replace(",","."));
+                var f = parseFloat(d.replace(",", "."));
                 var g = parseFloat(statistics.value.replace(",", "."))
                 if (f < g) {
                     $('#' + statistics.symbol).html('<span class="text-navy">' + statistics.value + '<i class="fa fa-level-up"></i></span>');
@@ -82,6 +134,13 @@
 @{
     ViewBag.Title = "Index";
 }
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
 <div class="page-header">
     <div class="page-header-content">
         <h1>Welcome to your stock wallet!</h1>
@@ -153,12 +212,12 @@
 <div class="row">
 
 
-    @foreach ( var item in Model )
+    @foreach (var item in Model)
     {
         <div class="col-lg-3 col-md-4">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>@Html.DisplayFor( modelItem => item.CompanyName )</h5>
+                    <h5>@Html.DisplayFor(modelItem => item.CompanyName)</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -185,14 +244,14 @@
 
                             <h3>
                                 Current Price
-                                <div class="stat-percent"><span id="@item.CompanySymbol">@Html.DisplayFor( modelItem => item.CurrentValue ) </span></div>
+                                <div class="stat-percent"><span id="@item.CompanySymbol">@Html.DisplayFor(modelItem => item.CurrentValue) </span></div>
                             </h3>
                         </li>
                         <li class="list-group-item">
 
                             <h3>
                                 Quantity
-                                <div class="stat-percent"><span>@Html.DisplayFor( modelItem => item.StocksNumber )</span></div>
+                                <div class="stat-percent"><span>@Html.DisplayFor(modelItem => item.StocksNumber)</span></div>
                             </h3>
                         </li>
                         <li class="list-group-item">
@@ -239,28 +298,28 @@
 
                     </div>
                 </div>
-         
+
                 <div class="ibox-content ibox-heading no-padding">
                     <div class="row">
                         <div class="col-lg-6 no-padding-right">
-                            <button type="button" class="btn btn-block no-rounded-btn btn-primary btn-lg">Buy</button>
-
-            </div>
-                        <div class="col-lg-6 no-padding-left ">
-                            <button type="button" class="btn btn-block no-rounded-btn btn-danger btn-lg">Sell</button>
-
+                         
+                            @Html.ActionLink("Buy", "Buy", new TradeModel { CompanySymbol = item.CompanySymbol }, new { data_modal = "", @class = "btn btn-block no-rounded-btn btn-primary btn-lg" })
+                          
                         </div>
+                        <div class="col-lg-6 no-padding-left ">
+                            @Html.ActionLink("Sell", "Sell", new TradeModel { CompanySymbol = item.CompanySymbol }, new { data_modal = "", @class = "btn btn-block no-rounded-btn btn-danger btn-lg" })
+                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        }
+    }
 
-    </div>
-    @*<div class="container row ">
-            <div class=" bg-darkCobalt tile text-center padding20 ">
-                <h2 class="fg-white">@Html.ActionLink("Add Observer", "Create")</h2>
-            </div>
-        </div>*@
+</div>
+@*<div class="container row ">
+        <div class=" bg-darkCobalt tile text-center padding20 ">
+            <h2 class="fg-white">@Html.ActionLink("Add Observer", "Create")</h2>
+        </div>
+    </div>*@
 
 

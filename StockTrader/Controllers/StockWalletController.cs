@@ -85,6 +85,23 @@ namespace StockTrader.Controllers
 
             return View();
         }
+        [HttpGet]
+        public ActionResult Buy(string companySymbol )
+        {
+
+            return PartialView(new TradeModel { CompanySymbol = companySymbol });
+        }
+
+        [HttpGet]
+        public ActionResult Sell(string companySymbol)
+        {
+
+            return PartialView(new TradeModel { CompanySymbol = companySymbol });
+        }
+
+
+
+
         [HttpPost]
         public ActionResult Buy(TradeModel tradeModel)
         {
