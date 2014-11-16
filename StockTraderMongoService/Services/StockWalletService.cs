@@ -46,19 +46,29 @@ namespace StockTraderMongoService.Services
         public void AddTransaction(string userId, string companySymbol, int stockNumber, TransactionHistory transactionHistory)
         {
 
-            var updateResult = MongoConnectionHandler.MongoCollection.Update(
-                    Query<StockWallet>.EQ(p => p.UserEmail, userId),
-                    Update<StockWallet>.Push(p => p.OwnedStocks.FirstOrDefault(n => n.CompanySymbol == companySymbol).TransactionHistories, transactionHistory),
-                    new MongoUpdateOptions
-                    {
-                        WriteConcern = WriteConcern.Acknowledged
-                    });
+            var updateResult =
+                MongoConnectionHandler.MongoCollection.AsQueryable<StockWallet>()
+                    .Where(p => p.UserEmail == userId);
 
-            if (updateResult.DocumentsAffected == 0)
-            {
-                //// Something went wrong
+            var v = updateResult.FirstOrDefault();
+            var w = v.OwnedStocks.FirstOrDefault(p => p.CompanySymbol == companySymbol);
 
-            }
+            w.TransactionHistories.Add(transactionHistory);
+            w.NumberOfStocks += stockNumber;
+            MongoConnectionHandler.MongoCollection.Save(v);
+            //Update(
+            //        Query<StockWallet>.EQ(p => p.UserEmail, userId),
+            //        Update<StockWallet>.Push(p => p.OwnedStocks.ToList().First(w => w.CompanySymbol == companySymbol).TransactionHistories, transactionHistory),
+            //        new MongoUpdateOptions
+            //        {
+            //            WriteConcern = WriteConcern.Acknowledged
+            //        });
+
+            //if (updateResult.DocumentsAffected == 0)
+            //{
+            //    //// Something went wrong
+
+            //}
         }
 
     }

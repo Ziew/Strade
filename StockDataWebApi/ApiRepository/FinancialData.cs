@@ -66,8 +66,7 @@ namespace StockDataWebApi.ApiRepository
                 foreach (var v in d.quote)
                 {
                     v.LastTradePriceOnly =
-                          (r.NextDouble() + Double.Parse(v.LastTradePriceOnly, CultureInfo.InvariantCulture))
-                             .ToString();
+                         String.Format( "{0:0.00}", ( r.NextDouble() + Double.Parse( v.LastTradePriceOnly, CultureInfo.InvariantCulture ) ) );
                 }
             }
             catch (Exception e) { }

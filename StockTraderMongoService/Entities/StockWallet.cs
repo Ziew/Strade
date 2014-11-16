@@ -18,7 +18,5 @@ namespace StockTraderMongoService.Entities
         public string UserEmail { get; set; }
     
         public IList<Stocks> OwnedStocks { get; set; }
-
-
     }
 }
