@@ -24,7 +24,7 @@ namespace StockTraderMongoService
 
             //// Get a reference to the "retrogamesweb" database object 
             //// from the Mongo server object
-            const string databaseName = "StockTrader";
+            const string databaseName = "retrogamesweb";
             var db = mongoServer.GetDatabase(databaseName);
 
             //// Get a reference to the collection object from the Mongo database object
