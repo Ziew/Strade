@@ -12,12 +12,10 @@ namespace StockTrader.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        private IAuthenticationManager _authenticationManager;
 
-       public ManageController(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+       public ManageController(ApplicationUserManager userManager)
 {
     this._userManager = userManager;
-    this._authenticationManager = authenticationManager;
 }
 
         private ApplicationUserManager _userManager;

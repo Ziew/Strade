@@ -73,25 +73,17 @@
                             </div>
 
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="stockwallet"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Stock wallet</span></a>
                         </li>
                         <li>
-                            <a href="stockwallet"><i class="fa fa-laptop"></i> <span class="nav-label">Stock wallet</span></a>
+                            <a href="companies"><i class="fa fa-laptop"></i> <span class="nav-label">Companies</span></a>
                         </li>
                         <li>
                             <a href="stockwallet"><i class="fa fa-laptop"></i> <span class="nav-label">Stock wallet</span></a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Profile</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
-                                <li><a href="graph_flot.html">Flot Charts</a></li>
-                                <li><a href="graph_morris.html">Morris.js Charts</a></li>
-                                <li><a href="graph_rickshaw.html">Rickshaw Charts</a></li>
-                                <li><a href="graph_chartjs.html">Chart.js</a></li>
-                                <li><a href="graph_peity.html">Peity Charts</a></li>
-                                <li><a href="graph_sparkline.html">Sparkline Charts</a></li>
-                            </ul>
+                            <a href="manage"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Profile</span></a>
                         </li>
 
 
@@ -103,7 +95,7 @@
             </nav>
             <div id="page-wrapper" class="gray-bg">
                 <div class="row border-bottom">
-                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; background:#22262e">
                         <div class="navbar-header">
                             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                         </div>
@@ -126,10 +118,10 @@
                     </nav>
                 </div>
                 <div class="wrapper wrapper-content">
-                    <div class="row">
+                    
                         @RenderBody()
 
-                    </div>
+                    
                 </div>
             </div>
 
@@ -152,9 +144,10 @@
     <!-- Content panel -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+   @* <script src="~/Scripts/jquery.metisMenu.js"></script>*@
+    <script src="~/Scripts/inspinia.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 
 </html>
-<script src="~/Scripts/jquery.metisMenu.js"></script>
-<script src="~/Scripts/inspinia.js"></script>
+
