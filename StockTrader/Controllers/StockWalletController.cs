@@ -42,7 +42,11 @@ namespace StockTrader.Controllers
                     CompanyName = n.CompanyName,
                     CompanySymbol = n.CompanySymbol,
                     StocksNumber = n.NumberOfStocks,
-                    CurrentValue = StockValuesRepository.getValue(n.CompanySymbol)
+                    CurrentValue = StockValuesRepository.getValue(n.CompanySymbol),
+                    TotalValue = n.TransactionHistories.Aggregate(0.0,(previous,current) =>
+                    
+                        previous + current.NumberOfStock*current.StockPrice
+                       ).ToString()
 
                 }).ToList();
             }
@@ -64,7 +68,7 @@ namespace StockTrader.Controllers
             {
                 CompanyName = companyInfoForUserViewModel.CompanyName,
                 CompanySymbol = companyInfoForUserViewModel.CompanySymbol,
-                NumberOfStocks = companyInfoForUserViewModel.StocksNumber
+                NumberOfStocks = 0
             };
             if (user == null)
             {
@@ -110,7 +114,7 @@ namespace StockTrader.Controllers
             {
                 NumberOfStock = tradeModel.StockNumber,
                 TransactionDate = DateTime.Now,
-                StockPrice = Double.Parse(tradeModel.StockValue)
+                StockPrice = StockValuesRepository.getValue(tradeModel.CompanySymbol)
             };
 
 
@@ -121,12 +125,12 @@ namespace StockTrader.Controllers
         }
         public ActionResult Sell(TradeModel tradeModel)
         {
-            var user = _stockWalletService.GetByUser(User.Identity.Name);
+
             var stock = new TransactionHistory
             {
-                NumberOfStock = tradeModel.StockNumber,
+                NumberOfStock = -1*tradeModel.StockNumber,
                 TransactionDate = DateTime.Now,
-                StockPrice = Double.Parse(tradeModel.StockValue)
+                StockPrice = StockValuesRepository.getValue(tradeModel.CompanySymbol)
             };
 
 

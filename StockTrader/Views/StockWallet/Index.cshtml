@@ -1,4 +1,5 @@
-﻿@using StockTrader.Models
+﻿
+@using StockTrader.Models
 @using StockTrader.App_Start
 @model IEnumerable<StockTrader.Models.CompanyInfoForUserViewModel>
 
@@ -74,12 +75,30 @@
 
             hub.on("OnNewPrice", function (statistics) {
                 var d = $('#' + statistics.symbol).text();
+
+                var num = parseFloat($('#num_' + statistics.symbol).text())  * parseFloat(statistics.value.replace(",", "."));
+                var total = 0.0;
+             
+                var model = @(Html.ToJson(Model));
+                for(var i = 0; i < model.length; i++) {
+                    if (model[i].companySymbol == statistics.symbol)
+                        total = parseFloat(model[i].totalValue.replace(",", "."));
+                }
+          
+            
+               
+
                 var f = parseFloat(d.replace(",", "."));
                 var g = parseFloat(statistics.value.replace(",", "."))
                 if (f < g) {
                     $('#' + statistics.symbol).html('<span class="text-navy">' + statistics.value + '<i class="fa fa-level-up"></i></span>');
                 } else {
                     $('#' + statistics.symbol).html('<span class="text-danger">' + statistics.value + '<i class="fa fa-level-down"></i></span>');
+                }
+                if (total < num) {
+                    $('#chk_' + statistics.symbol).html('<span class="text-navy">' + (1-total/num).toFixed(2) + '%<i class="fa fa-level-up"></i></span>');
+                } else {
+                    $('#chk_' + statistics.symbol).html('<span class="text-danger">' + (1-num/total).toFixed(2) + '%<i class="fa fa-level-down"></i></span>');
                 }
 
             });
@@ -119,7 +138,7 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-success pull-right">Monthly</span>
-                <h5>Income</h5>
+                <h5>All Stock Value</h5>
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins">40 886,200</h1>
@@ -145,7 +164,7 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-primary pull-right">Today</span>
-                <h5>Vistits</h5>
+                <h5>Income</h5>
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins">106,120</h1>
@@ -157,11 +176,11 @@
     <div class="col-lg-3 col-md-3">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <span class="label label-danger pull-right">Low value</span>
-                <h5>User activity</h5>
+                <span class="label label-danger pull-right">Euro</span>
+                <h5>Your Money</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">80,600</h1>
+                <h1 class="no-margins">10000</h1>
                 <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
                 <small>In first month</small>
             </div>
@@ -223,14 +242,14 @@
 
                                 <h3>
                                     Quantity
-                                    <div class="stat-percent"><span>@Html.DisplayFor(modelItem => item.StocksNumber)</span></div>
+                                    <div class="stat-percent"><span id=@("num_" + @item.CompanySymbol)>@Html.DisplayFor(modelItem => item.StocksNumber)</span></div>
                                 </h3>
                             </li>
                             <li class="list-group-item">
 
                                 <h3>
                                     Total
-                                    <div class="stat-percent"><span id="@("chk_"+@item.CompanySymbol)">10034.432</span></div>
+                                    <div class="stat-percent"><span id="@("chk_"+@item.CompanySymbol)">@Html.DisplayFor(modelItem => item.TotalValue)</span></div>
                                 </h3>
                             </li>
 

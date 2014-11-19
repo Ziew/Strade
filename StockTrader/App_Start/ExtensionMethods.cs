@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace StockTrader.App_Start
 {
@@ -24,6 +27,16 @@ namespace StockTrader.App_Start
             builder.MergeAttributes(new RouteValueDictionary(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes)));
 
             return MvcHtmlString.Create(builder.ToString());
+        }
+
+        public static IHtmlString ToJson(this HtmlHelper helper, object obj)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            settings.Converters.Add(new JavaScriptDateTimeConverter());
+            return helper.Raw(JsonConvert.SerializeObject(obj, settings));
         }
     }
 }

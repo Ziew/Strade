@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR.Hubs;
 using StockDataWebApi;
 using StockTrader.App_Start;
+using StockTraderMongoService.Services;
 
 namespace StockTrader.Hubs
 {
@@ -22,16 +23,19 @@ namespace StockTrader.Hubs
     public class PricePublisher
     {
         private readonly IContextHolder _contextHolder;
+        private StockWalletService _stockWalletService;
 
         public PricePublisher(IContextHolder contextHolder, IStocksPoller stockPoller)
         {
+            _stockWalletService = new StockWalletService();
             _contextHolder = contextHolder;
             stockPoller.StockPriceChanges.Subscribe(async quote =>
             {
                 var context = _contextHolder.PricingHubClient;
                 if (context == null) return;
-
-                await context.Caller.OnNewPrice(new { symbol = quote.symbol, value = quote.LastTradePriceOnly});
+                double total = 0;
+           
+                await context.Caller.OnNewPrice(new { symbol = quote.symbol, value = quote.LastTradePriceOnly, });
             });
         }
     }

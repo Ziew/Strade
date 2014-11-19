@@ -30,7 +30,7 @@ namespace StockTrader.App_Start
         {
             Companies = new Dictionary<string, double>();
             var financialData = stocksPoller;
-            financialData.StockPriceChanges.Subscribe(quote => Companies[quote.symbol] = Double.Parse(quote.LastTradePriceOnly, CultureInfo.InvariantCulture));
+            financialData.StockPriceChanges.Subscribe(quote => Companies[quote.symbol] = Double.Parse(quote.LastTradePriceOnly));
             //financialData.StockPriceChanges.Subscribe(quote =>
             //{
             //     var hubContext = GlobalHost.ConnectionManager.GetHubContext<PricingHub>();
