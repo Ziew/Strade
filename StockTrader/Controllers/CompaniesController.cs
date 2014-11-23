@@ -37,7 +37,7 @@ namespace StockTrader.Controllers
         public ActionResult GetNewsForCompany(string companyName)
         {
             dynamic jsonobject = JObject.Parse(_financialData.GetNewsForCompany(companyName));
-
+            var stockinfo = _financialData.GetFinancialDataFromCompanies();
             var list = new List<NewsForCompany>();
 
             foreach (var d in jsonobject.rss.channel.item)
@@ -46,7 +46,8 @@ namespace StockTrader.Controllers
                 {
                     Description = d.description,
                     Header = d.title,
-                    Link = d.link
+                    Link = d.link,
+                    StockInfo = stockinfo.quote.First(n => n.symbol == companyName)
                 });
             }
 
