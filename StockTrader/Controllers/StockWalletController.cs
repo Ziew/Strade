@@ -64,9 +64,10 @@ namespace StockTrader.Controllers
         public ActionResult Create(CompanyInfoForUserViewModel companyInfoForUserViewModel)
         {
             var user = _stockWalletService.GetByUser(User.Identity.Name);
+            
             var stock = new Stocks
             {
-                CompanyName = companyInfoForUserViewModel.CompanyName,
+                CompanyName = companyInfoForUserViewModel.CompanySymbol,
                 CompanySymbol = companyInfoForUserViewModel.CompanySymbol,
                 NumberOfStocks = 0
             };
@@ -87,7 +88,7 @@ namespace StockTrader.Controllers
                 _stockWalletService.AddStock(User.Identity.Name, stock);
             }
 
-            return View();
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Buy(string companySymbol )

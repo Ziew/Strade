@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiRepository\CompanyInfo.cs" />
     <Compile Include="ApiRepository\FinancialData.cs" />
     <Compile Include="ApiRepository\IFinancialData.cs" />
     <Compile Include="ApiRepository\ProjectionEqualityComparer.cs" />

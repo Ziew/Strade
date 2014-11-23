@@ -23,7 +23,7 @@ namespace StockDataWebApi
         {
             StockPriceChanges = Observable.Defer(
                 () => Observable.Return(_financialData.GetFinancialDataFromCompanies().quote.ToObservable())
-).Sample(TimeSpan.FromSeconds(1))
+).Sample(TimeSpan.FromSeconds(0.2))
                     .Repeat()
                 .SelectMany(observable => observable)
                 .GroupBy(quote => quote.symbol)

@@ -5,37 +5,86 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@Scripts.Render("~/bundles/jquery")
+<h2>Companies</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.price)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (CompanyViewModel item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Details", "Details", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
-            </td>
-        </tr>
+
+<div class="col-md-3 ibox float-e-margins">
+    <ul class="nav">
+        <li class="nav-header">
+
+
+
+        </li>
+        @foreach (CompanyViewModel item in Model)
+        {
+
+            <li>
+                <span onclick="reload('@(item.symbol)', '@(item.name)')" href=""> <span class="nav-label">@Html.DisplayFor(modelItem => item.name) </span></span>
+
+            </li>
+
+        }
+
+
+
+    </ul>
+
+
+</div>
+<div id="companyinfo" class="col-md-8 panel panel-default">
+
+
+</div>
+
+<script>
+
+    function reload(arg, name) {
+     
+        $('#companyinfo').html('');
+        $.ajax({
+            type: 'POST',
+            url: "/Companies/GetNewsForCompany",
+            data: { companyName: arg },
+            success: function (data) {
+
+                var html = '<div class="col-md-6"><h2>' + name + '</h2> </div>';
+
+                html += "<div class='col-md-6'><button onclick = observe('" + arg + "') class='btn btn-block no-rounded-btn btn-primary btn-lg' data-modal=''>Observe</a></div><div class='panel-body'>";
+                for (var i = 0; i < data.length; i++) {
+                    html += '<div><h2> <a href="' + data[i].Link + '"> <span class="nav-label">' + data[i].Header + '</span></a></h2></li>';
+                    html += '<li><span class="nav-label">' + data[i].Description + '</span><div>';
+                }
+                html += '</div>';
+
+
+                $('#companyinfo').append(html);
+         
+            }
+        });
+
+
     }
 
-</table>
+    function testt(arg) {
+        alert(arg);
+    }
+    function observe(arg) {
+
+        $.ajax({
+            type: 'POST',
+            url: "/StockWallet/Create",
+            data: { CompanySymbol: arg },
+            success: function (data) {
+
+                alert("test");
+
+            }
+        });
+       
+
+
+    }
+
+</script>

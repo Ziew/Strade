@@ -234,6 +234,7 @@
     <Compile Include="Models\CompanyViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewsForCompany.cs" />
     <Compile Include="Models\StockWalletViewModel.cs" />
     <Compile Include="Models\TradeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -353,6 +354,7 @@
     <Content Include="Views\StockWallet\Create.cshtml" />
     <Content Include="Views\StockWallet\Buy.cshtml" />
     <Content Include="Views\StockWallet\Sell.cshtml" />
+    <Content Include="Views\Companies\GetNewsForCompany.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

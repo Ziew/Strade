@@ -1,0 +1,35 @@
+﻿
+@model IEnumerable<StockTrader.Models.NewsForCompany>
+      
+
+@{
+    Layout = null;
+}     
+<ul >
+    <li >
+
+
+
+    </li>
+    @foreach (var item in Model)
+    {
+        <li class="nav-header">
+            <a href="item.Link"> <span class="nav-label">item.Header </span></a>
+
+
+        </li>
+
+        <li>
+           <span class="nav-label">item.Description</span>
+
+        </li>
+
+    }
+
+
+
+
+</ul>
+
+
+
