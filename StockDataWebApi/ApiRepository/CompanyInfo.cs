@@ -12,7 +12,7 @@ namespace StockDataWebApi.ApiRepository
 
 
 
-public class Image
+/*public class Image
 {
     public string url { get; set; }
     public string title { get; set; }
@@ -43,7 +43,7 @@ public class Channel
     public Image image { get; set; }
     public List<Item> item { get; set; }
 }
-
+    
 public class Rss
 {
 
@@ -55,4 +55,5 @@ public class RootObject
 
     public Rss rss { get; set; }
 }
+ * */
 }

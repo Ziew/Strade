@@ -21,7 +21,7 @@
         {
 
             <li>
-                <span onclick="reload('@(item.symbol)', '@(item.name)')" href=""> <span class="nav-label">@Html.DisplayFor(modelItem => item.name) </span></span>
+                <a href="#"  onclick="reload('@(item.symbol)', '@(item.name)')" href=""> <span class="nav-label">@Html.DisplayFor(modelItem => item.name) </span></a>
 
             </li>
 
@@ -41,25 +41,25 @@
 <script>
 
     function reload(arg, name) {
-     
+
         $('#companyinfo').html('');
         $.ajax({
             type: 'POST',
             url: "/Companies/GetNewsForCompany",
-            data: { companyName: arg },
+            data: { companySymbol: arg },
             success: function (data) {
 
-                var html = '<div class="col-md-6"><h2>' + name + '</h2> </div>';
+                /*var html = '<div class="col-md-6"><h2>' + name + '</h2> </div>';
 
                 html += "<div class='col-md-6'><button onclick = observe('" + arg + "') class='btn btn-block no-rounded-btn btn-primary btn-lg' data-modal=''>Observe</a></div><div class='panel-body'>";
                 for (var i = 0; i < data.length; i++) {
-                    html += '<div><h2> <a href="' + data[i].Link + '"> <span class="nav-label">' + data[i].Header + '</span></a></h2></li>';
-                    html += '<li><span class="nav-label">' + data[i].Description + '</span><div>';
+                    html += '<div><h2> <a href="' + data[i].Link + '"> <span class="nav-label">' + data[i].Header + '</span></a></h2>';
+                    html += '<span class="nav-label">' + data[i].Description + '</span><div>';
                 }
-                html += '</div>';
+                html += '</div>';*/
 
-
-                $('#companyinfo').append(html);
+                $('#companyinfo').html('');
+                $('#companyinfo').append(data);
          
             }
         });

@@ -1,35 +1,97 @@
-﻿
-@model IEnumerable<StockTrader.Models.NewsForCompany>
-      
+﻿@model StockTrader.Models.NewsForCompanies
 
-@{
-    Layout = null;
-}     
-<ul >
-    <li >
+<script>
+    function observe(arg) {
 
+        $.ajax({
+            type: 'POST',
+            url: "/StockWallet/Create",
+            data: { CompanySymbol: arg },
+            success: function (data) {
 
+                alert("test");
 
-    </li>
-    @foreach (var item in Model)
-    {
-        <li class="nav-header">
-            <a href="item.Link"> <span class="nav-label">item.Header </span></a>
+            }
+        });
 
 
-        </li>
-
-        <li>
-           <span class="nav-label">item.Description</span>
-
-        </li>
 
     }
+</script>
+@{
+    Layout = null;
+}
+<div>
+    <div class="col-md-6">
+        <h2>@Model.CompanySymbol</h2>
+    </div>
+
+    <div class='pull-right'>
+        <button onclick=observe(@Model.CompanySymbol) class='btn btn-block no-rounded-btn btn-primary btn-lg' data-modal=''>Observe</button>
+    </div>
+</div>
+
+<div class="col-md-12">
+
+
+    <div class="tab-container">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#last-day">last day</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#last-month">last month</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#last-year">last year</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="last-day" class="tab-pane cont active">
+                <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=1d">
+            </div>
+            <div id="last-month" class="tab-pane cont">
+                <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=1m">
+            </div>
+
+            <div id="last-year" class="tab-pane cont">
+                <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=1y">
+            </div>
+        </div>
+    </div>
+
+
+
+    
+</div>
+<div class="ibox-title">
+    <h5>Daily news for company</h5>
+</div>
+<div class="ibox-content">
+    <div class="feed-activity-list">
+        @foreach (var item in Model.Company)
+        {
+
+            <div class="feed-element">
+                <div>
+                    <h2>
+                        <a href="@item.Link"> <span class="nav-label">@item.Header </span></a>
+                    </h2>
+
+                    <span class="nav-label">@item.Description</span>
+                </div>
+                <small class="text-muted">@item.PubDate</small>
+            </div>
+
+
+
+        }
+    </div>
+</div>
 
 
 
 
-</ul>
 
 
 

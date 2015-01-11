@@ -34,24 +34,31 @@ namespace StockTrader.Controllers
             return View();
         }
 
-        public ActionResult GetNewsForCompany(string companyName)
+        public ActionResult GetNewsForCompany(string companySymbol)
         {
-            dynamic jsonobject = JObject.Parse(_financialData.GetNewsForCompany(companyName));
+            dynamic jsonobject = JObject.Parse(_financialData.GetNewsForCompany(companySymbol));
             var stockinfo = _financialData.GetFinancialDataFromCompanies();
             var list = new List<NewsForCompany>();
 
             foreach (var d in jsonobject.rss.channel.item)
             {
+
                 list.Add(new NewsForCompany
                 {
                     Description = d.description,
                     Header = d.title,
                     Link = d.link,
-                    StockInfo = stockinfo.quote.First(n => n.symbol == companyName)
+                    StockInfo = stockinfo.quote.First(n => n.symbol == companySymbol),
+                    PubDate = d.pubDate
                 });
             }
-
-            return Json(list, JsonRequestBehavior.AllowGet);
+            var companies = new NewsForCompanies
+            {
+                Company = list,
+                CompanySymbol = companySymbol
+            };
+            return PartialView(companies);
+            //return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

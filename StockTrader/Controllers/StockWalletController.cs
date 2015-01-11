@@ -13,6 +13,8 @@ using StockTraderMongoService.Services;
 using System.Globalization;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
+using StockDataWebApi.ApiRepository;
+using Newtonsoft.Json.Linq;
 
 namespace StockTrader.Controllers
 {
@@ -21,17 +23,19 @@ namespace StockTrader.Controllers
     {
         private StockWalletService _stockWalletService;
         private IStockValuesRepository StockValuesRepository;
+        private IFinancialData _financialData;
 
-        public StockWalletController(IStockValuesRepository stockValuesRepository)
+        public StockWalletController(IStockValuesRepository stockValuesRepository, IFinancialData financialData)
         {
             _stockWalletService = new StockWalletService();
             StockValuesRepository = stockValuesRepository;
+            _financialData = financialData;
         }
 
         public ActionResult Index()
         {
 
-
+           
 
             var user = _stockWalletService.GetByUser(User.Identity.Name);
             List<CompanyInfoForUserViewModel> stockwallet = new List<CompanyInfoForUserViewModel>();
@@ -40,6 +44,7 @@ namespace StockTrader.Controllers
                 stockwallet = user.OwnedStocks.Select(n => new CompanyInfoForUserViewModel
                 {
                     CompanyName = n.CompanyName,
+                    Company = GetNewsForCompany(n.CompanySymbol).Take(2).ToList(),
                     CompanySymbol = n.CompanySymbol,
                     StocksNumber = n.NumberOfStocks,
                     CurrentValue = StockValuesRepository.getValue(n.CompanySymbol),
@@ -52,6 +57,27 @@ namespace StockTrader.Controllers
             }
 
             return View(stockwallet);
+        }
+
+        private List<NewsForCompanyWithoutStockInfo> GetNewsForCompany(string companySymbol)
+        {
+            dynamic jsonobject = JObject.Parse(_financialData.GetNewsForCompany(companySymbol));
+            var stockinfo = _financialData.GetFinancialDataFromCompanies();
+            var list = new List<NewsForCompanyWithoutStockInfo>();
+
+            foreach (var d in jsonobject.rss.channel.item)
+            {
+
+                list.Add(new NewsForCompanyWithoutStockInfo
+                {
+                    Description = d.description,
+                    Header = d.title,
+                    Link = d.link,
+                    //StockInfo = stockinfo.quote.First(n => n.symbol == companySymbol),
+                    PubDate = d.pubDate
+                });
+            }
+            return list;
         }
 
         [HttpGet]

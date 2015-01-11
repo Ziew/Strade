@@ -14,6 +14,7 @@ namespace StockTrader.Models
 
         public string TotalValue { get; set; }
 
+        public List<NewsForCompanyWithoutStockInfo> Company { get; set; }
 
     }
 }
