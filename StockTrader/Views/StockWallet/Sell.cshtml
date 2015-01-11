@@ -9,10 +9,11 @@
 {
     <div class="modal-body">
         @Html.EditorFor(model => model.StockNumber, new { htmlAttributes = new { @class = "form-control" } })
+        <div id="content-for-transaction"></div>
     </div>
 
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal">Cancel</button>
-        <input class="btn btn-primary" type="submit"  value="Add" />
+        <input class="btn btn-primary btn-danger" type="submit" value="Sell" />
     </div>
 }

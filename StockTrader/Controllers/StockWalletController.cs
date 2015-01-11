@@ -43,6 +43,7 @@ namespace StockTrader.Controllers
             {
                 stockwallet = user.OwnedStocks.Select(n => new CompanyInfoForUserViewModel
                 {
+                    
                     CompanyName = n.CompanyName,
                     Company = GetNewsForCompany(n.CompanySymbol).Take(2).ToList(),
                     CompanySymbol = n.CompanySymbol,
@@ -51,12 +52,24 @@ namespace StockTrader.Controllers
                     TotalValue = n.TransactionHistories.Aggregate(0.0,(previous,current) =>
                     
                         previous + current.NumberOfStock*current.StockPrice
-                       ).ToString()
+                       )
 
                 }).ToList();
             }
+            var allstockvaluebytransactionprice = stockwallet.Aggregate(0.0,(previous, current) => previous + current.TotalValue);
+            var allstockvaluebycurrentprice = stockwallet.Aggregate(0.0,(previous, current) => previous + (current.StocksNumber * StockValuesRepository.getValue(current.CompanySymbol)));
+            var userstatistics = new UserStatisticsWithOwnedCompanyInfo
+            {
+                UserMoney = user.Money,
+                OwnedCompanyInfo = stockwallet,
 
-            return View(stockwallet);
+                AllStockValue = allstockvaluebycurrentprice,
+                Income = allstockvaluebycurrentprice - allstockvaluebytransactionprice,
+                AllValue = allstockvaluebycurrentprice + user.Money
+
+            };
+
+            return View(userstatistics);
         }
 
         private List<NewsForCompanyWithoutStockInfo> GetNewsForCompany(string companySymbol)
@@ -102,6 +115,7 @@ namespace StockTrader.Controllers
                 _stockWalletService.Create(new StockWallet
                 {
                     UserEmail = User.Identity.Name,
+                    Money = 100000,
                     OwnedStocks = new List<Stocks>
                     {
                         stock
@@ -123,6 +137,8 @@ namespace StockTrader.Controllers
             return PartialView(new TradeModel { CompanySymbol = companySymbol });
         }
 
+      
+
         [HttpGet]
         public ActionResult Sell(string companySymbol)
         {
@@ -136,6 +152,7 @@ namespace StockTrader.Controllers
         [HttpPost]
         public ActionResult Buy(TradeModel tradeModel)
         {
+            var user = _stockWalletService.GetByUser(User.Identity.Name);
            
             var stock = new TransactionHistory
             {
@@ -143,16 +160,19 @@ namespace StockTrader.Controllers
                 TransactionDate = DateTime.Now,
                 StockPrice = StockValuesRepository.getValue(tradeModel.CompanySymbol)
             };
+            if (user.Money >= stock.StockPrice * stock.NumberOfStock)
+            {
+
+                _stockWalletService.AddTransaction(User.Identity.Name, tradeModel.CompanySymbol, tradeModel.StockNumber, stock);
 
 
-            _stockWalletService.AddTransaction(User.Identity.Name, tradeModel.CompanySymbol, tradeModel.StockNumber, stock);
-            
-
-            return Json(new { Result = "Success" });
+                return Json(new { Result = "Success" });
+            }
+            return Json(new { Result = "Failed", Transaction = "Buy" });
         }
         public ActionResult Sell(TradeModel tradeModel)
         {
-
+            var user = _stockWalletService.GetByUser(User.Identity.Name).OwnedStocks.FirstOrDefault(n => n.CompanySymbol == tradeModel.CompanySymbol);
             var stock = new TransactionHistory
             {
                 NumberOfStock = -1*tradeModel.StockNumber,
@@ -160,11 +180,15 @@ namespace StockTrader.Controllers
                 StockPrice = StockValuesRepository.getValue(tradeModel.CompanySymbol)
             };
 
+            if (user.NumberOfStocks - tradeModel.StockNumber > 0)
+            {
 
-            _stockWalletService.AddTransaction(User.Identity.Name, tradeModel.CompanySymbol, (-1) * tradeModel.StockNumber, stock);
+                _stockWalletService.AddTransaction(User.Identity.Name, tradeModel.CompanySymbol, (-1) * tradeModel.StockNumber, stock);
 
 
-            return Json(new { Result = "Success" });
+                return Json(new { Result = "Success" });
+            }
+            return Json(new { Result = "Failed", Transaction ="Sell" });
         }
     }
 }

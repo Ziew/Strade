@@ -49,10 +49,11 @@ namespace StockTraderMongoService.Services
             var updateResult =
                 MongoConnectionHandler.MongoCollection.AsQueryable<StockWallet>()
                     .Where(p => p.UserEmail == userId);
-
+            
             var v = updateResult.FirstOrDefault();
+            v.Money -= stockNumber * transactionHistory.StockPrice;
             var w = v.OwnedStocks.FirstOrDefault(p => p.CompanySymbol == companySymbol);
-
+            
             w.TransactionHistories.Add(transactionHistory);
             w.NumberOfStocks += stockNumber;
             MongoConnectionHandler.MongoCollection.Save(v);

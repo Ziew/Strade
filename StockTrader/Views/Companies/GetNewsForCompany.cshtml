@@ -3,24 +3,7 @@
 @using StockTrader.App_Start
 @model StockTrader.Models.NewsForCompanies
 
-<script>
-    function observe(arg) {
 
-        $.ajax({
-            type: 'POST',
-            url: "/StockWallet/Create",
-            data: { CompanySymbol: arg },
-            success: function (data) {
-
-                alert("test");
-
-            }
-        });
-
-
-
-    }
-</script>
 @{
     Layout = null;
 }
@@ -29,10 +12,12 @@
     <div class="col-md-6">
         <h2>@Model.CompanySymbol</h2>
     </div>
-
-    <div class='pull-right'>
-        <button onclick=observe(@Model.CompanySymbol) class='btn btn-block no-rounded-btn btn-primary btn-lg' data-modal=''>Observe</button>
+    @{if (!Model.IsObserve) { 
+    <div id="observe-button" class='pull-right'>
+        <button onclick=observe('@Model.CompanySymbol') class='btn btn-block no-rounded-btn btn-primary btn-lg' data-modal=''>Observe</button>
     </div>
+    }
+    }
 </div>
 
 <div class="col-md-12">
@@ -136,7 +121,23 @@
 
 
 
+<script>
+    function observe(arg) {
+        $("#observe-button").html('');
+        $.ajax({
+            type: 'POST',
+            url: "/StockWallet/Create",
+            data: { CompanySymbol: arg },
+            success: function (data) {
 
+            
+            }
+        });
+
+
+
+    }
+</script>
 
 
 

@@ -13,9 +13,11 @@ namespace StockTrader.Controllers
     {
         private readonly IEntityService<Company> _entityService;
         private IFinancialData _financialData;
+        private StockWalletService _stockWalletService;
 
         public CompaniesController(IEntityService<Company> entityService, IFinancialData financialData)
         {
+            _stockWalletService = new StockWalletService();
             _entityService = entityService;
             _financialData = financialData;
         }
@@ -62,7 +64,8 @@ namespace StockTrader.Controllers
                 MarketCapitalization = stockinfo2.MarketCapitalization,
                 Volume = stockinfo2.Volume,
                 Company = list,
-                CompanySymbol = companySymbol
+                CompanySymbol = companySymbol,
+                IsObserve = _stockWalletService.GetByUser(User.Identity.Name).OwnedStocks.FirstOrDefault(n => n.CompanySymbol == companySymbol) != null
             };
             return PartialView(companies);
             //return Json(list, JsonRequestBehavior.AllowGet);

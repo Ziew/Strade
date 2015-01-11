@@ -29,6 +29,7 @@ namespace StockTrader.Models
         public string MarketCapitalization { get; set; }
         public string LastTradePriceOnly { get; set; }
 
+        public bool IsObserve { get; set; }
         public string Volume { get; set; }
 
         public List<NewsForCompany> Company { get; set; }

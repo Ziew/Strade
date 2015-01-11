@@ -1,7 +1,7 @@
 ﻿
 @using StockTrader.Models
 @using StockTrader.App_Start
-@model IEnumerable<StockTrader.Models.CompanyInfoForUserViewModel>
+@model StockTrader.Models.UserStatisticsWithOwnedCompanyInfo
 
 @section scripts {
     <!--Script references. -->
@@ -50,15 +50,20 @@
                     data: $(this).serialize(),
                     success: function (result) {
 
-                        $('#myModal').modal('hide');
-                        location.reload();
-                        if (result.success) {
+                       
+                        if (result.Result == "Success") {
                             $('#myModal').modal('hide');
                           
                             location.reload();
                         } else {
-                            $('#myModalContent').html(result);
-                            bindForm();
+                            if(result.Transaction == "Buy")
+                            {
+                                $('#content-for-transaction').html("<p>You need more money</p>");
+                            }
+                            else
+                            {
+                                $('#content-for-transaction').html("<p>You need more stock</p>");
+                            }
                         }
                     }
                 });
@@ -82,10 +87,10 @@
                 var num = parseFloat($('#num_' + statistics.symbol).text())  * parseFloat(statistics.value.replace(",", "."));
                 var total = 0.0;
              
-                var model = @(Html.ToJson(Model));
+                var model = @(Html.ToJson(Model.OwnedCompanyInfo));
                 for(var i = 0; i < model.length; i++) {
                     if (model[i].companySymbol == statistics.symbol)
-                        total = parseFloat(model[i].totalValue.replace(",", "."));
+                        total = parseFloat(model[i].totalValue);
                 }
           
             
@@ -144,7 +149,7 @@
                 <h5>All Stock Value</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">40 886,200</h1>
+                <h1 class="no-margins">@Model.AllStockValue</h1>
                 <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
                 <small>Total income</small>
             </div>
@@ -154,10 +159,10 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-info pull-right">Annual</span>
-                <h5>Orders</h5>
+                <h5>All Value</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">275,800</h1>
+                <h1 class="no-margins">@Model.AllValue</h1>
                 <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
                 <small>New orders</small>
             </div>
@@ -170,7 +175,7 @@
                 <h5>Income</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">106,120</h1>
+                <h1 class="no-margins">@Model.Income</h1>
                 <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
                 <small>New visits</small>
             </div>
@@ -183,7 +188,7 @@
                 <h5>Your Money</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">10000</h1>
+                <h1 class="no-margins">@Model.UserMoney</h1>
                 <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
                 <small>In first month</small>
             </div>
@@ -206,7 +211,7 @@
     <div class="row">
 
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.OwnedCompanyInfo)
         {
             <div class="col-lg-3 col-md-4 col-sm4">
                 <div class="ibox float-e-margins">
@@ -269,18 +274,18 @@
                             <small class="text-muted">@item.Company[0].PubDate</small>
                         </div>
                     </div>
-                    <div class="ibox-content">
+                   @* <div class="ibox-content">
                         <div class="feed-element">
                             <div>
                                 <h4>
-                                    <a href="@item.Company[0].Link"> <span class="nav-label">@item.Company[0].Header </span></a>
+                                    <a href="@item.Company[1].Link"> <span class="nav-label">@item.Company[1].Header </span></a>
                                 </h4>
 
                                
                             </div>
-                            <small class="text-muted">@item.Company[0].PubDate</small>
+                            <small class="text-muted">@item.Company[1].PubDate</small>
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="ibox-content ibox-heading no-padding">
                         <div class="row">
