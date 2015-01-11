@@ -14,7 +14,7 @@ namespace StockTrader.Models
 
         public string PubDate { get; set; }
        
-        public Quote StockInfo { get; set; }
+   
 
         //public List<Image> Charts { get; set; }
     }
@@ -23,6 +23,13 @@ namespace StockTrader.Models
     {
         public string CompanyName { get; set; }
         public string CompanySymbol { get; set; }
+        public string Change { get; set; }
+        public string DaysLow { get; set; }
+        public string DaysHigh { get; set; }
+        public string MarketCapitalization { get; set; }
+        public string LastTradePriceOnly { get; set; }
+
+        public string Volume { get; set; }
 
         public List<NewsForCompany> Company { get; set; }
     }

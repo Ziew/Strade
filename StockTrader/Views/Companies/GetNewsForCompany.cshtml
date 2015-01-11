@@ -1,4 +1,7 @@
-﻿@model StockTrader.Models.NewsForCompanies
+﻿
+@using StockTrader.Models
+@using StockTrader.App_Start
+@model StockTrader.Models.NewsForCompanies
 
 <script>
     function observe(arg) {
@@ -22,6 +25,7 @@
     Layout = null;
 }
 <div>
+
     <div class="col-md-6">
         <h2>@Model.CompanySymbol</h2>
     </div>
@@ -37,29 +41,70 @@
     <div class="tab-container">
         <ul class="nav nav-tabs">
             <li class="active">
-                <a data-toggle="tab" href="#last-day">last day</a>
+                <a data-toggle="tab" href="#1-day">1 day</a>
+            </li>
+            <li >
+                <a data-toggle="tab" href="#5-day">5 day</a>
             </li>
             <li>
-                <a data-toggle="tab" href="#last-month">last month</a>
+                <a data-toggle="tab" href="#1-month">1 month</a>
             </li>
             <li>
-                <a data-toggle="tab" href="#last-year">last year</a>
+                <a data-toggle="tab" href="#3-month">3 month</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#1-year">1 year</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#5-year">5 year</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div id="last-day" class="tab-pane cont active">
+            <div id="1-day" class="tab-pane cont active">
                 <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=1d">
             </div>
-            <div id="last-month" class="tab-pane cont">
+
+            <div id="5-day" class="tab-pane cont">
+                <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=5d">
+            </div>
+            <div id="1-month" class="tab-pane cont">
                 <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=1m">
             </div>
+            <div id="3-month" class="tab-pane cont">
+                <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=3m">
+            </div>
 
-            <div id="last-year" class="tab-pane cont">
+            <div id="1-year" class="tab-pane cont">
                 <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=1y">
+            </div>
+            <div id="5-year" class="tab-pane cont">
+                <img src="http://chart.finance.yahoo.com/z?s=@Model.CompanySymbol&t=5y">
             </div>
         </div>
     </div>
-
+   <div>
+      
+        <div class="col-md-1">
+            <p>Last</p>
+            <p>High</p>
+            <p>Low</p>
+        </div>
+       <div class="col-md-5">
+           <p>@Model.LastTradePriceOnly</p>
+           <p>@Model.DaysHigh</p>
+           <p>@Model.DaysLow</p>
+       </div>
+        <div class="col-md-2">
+            <p>Market cap</p>
+            <p>Change</p>
+            <p>Volume</p>
+        </div>
+       <div class="col-md-4">
+           <p>@Model.MarketCapitalization</p>
+           <p>@Model.Change</p>
+           <p>@Model.Volume</p>
+       </div>
+    </div> 
 
 
     

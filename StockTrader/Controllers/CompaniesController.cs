@@ -48,12 +48,19 @@ namespace StockTrader.Controllers
                     Description = d.description,
                     Header = d.title,
                     Link = d.link,
-                    StockInfo = stockinfo.quote.First(n => n.symbol == companySymbol),
+                  
                     PubDate = d.pubDate
                 });
             }
+            var stockinfo2 = stockinfo.quote.FirstOrDefault(n => n.symbol == companySymbol);
             var companies = new NewsForCompanies
             {
+                Change = stockinfo2.Change,
+                DaysHigh = stockinfo2.DaysHigh,
+                DaysLow = stockinfo2.DaysLow,
+                LastTradePriceOnly = stockinfo2.LastTradePriceOnly,
+                MarketCapitalization = stockinfo2.MarketCapitalization,
+                Volume = stockinfo2.Volume,
                 Company = list,
                 CompanySymbol = companySymbol
             };

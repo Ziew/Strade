@@ -16,6 +16,8 @@ namespace StockTraderMongoService.Entities
             OwnedStocks = new List<Stocks>();
         }
         public string UserEmail { get; set; }
+
+        public double Money { get; set; }
     
         public IList<Stocks> OwnedStocks { get; set; }
     }
