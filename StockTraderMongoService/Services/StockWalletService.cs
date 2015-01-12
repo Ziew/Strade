@@ -24,23 +24,46 @@ namespace StockTraderMongoService.Services
             return MongoConnectionHandler.MongoCollection.FindOne(entityQuery);
         }
 
+        public void DeleteStock(string userId, string companySymbol)
+        {
+            var updateResult =
+                MongoConnectionHandler.MongoCollection.AsQueryable<StockWallet>()
+                    .Where(p => p.UserEmail == userId);
+
+            var v = updateResult.FirstOrDefault();
+
+            var w = v.OwnedStocks.FirstOrDefault(p => p.CompanySymbol == companySymbol);
+            w.IsObserved = false;
+
+
+            MongoConnectionHandler.MongoCollection.Save(v);
+        }
+
         public void AddStock(string userId, Stocks stock)
         {
+            var updateResult =
+              MongoConnectionHandler.MongoCollection.AsQueryable<StockWallet>()
+                  .Where(p => p.UserEmail == userId);
 
+            var v = updateResult.FirstOrDefault();
 
-            var updateResult = MongoConnectionHandler.MongoCollection.Update(
-                    Query<StockWallet>.EQ(p => p.UserEmail, userId),
-                    Update<StockWallet>.Push(p => p.OwnedStocks, stock),
-                    new MongoUpdateOptions
-                    {
-                        WriteConcern = WriteConcern.Acknowledged
-                    });
-
-            if (updateResult.DocumentsAffected == 0)
+            var w = v.OwnedStocks.FirstOrDefault(p => p.CompanySymbol == stock.CompanySymbol);
+            if (w != null)
             {
-                //// Something went wrong
-
+                w.IsObserved = true;
+                MongoConnectionHandler.MongoCollection.Save(v);
             }
+            else
+            {
+                MongoConnectionHandler.MongoCollection.Update(
+                         Query<StockWallet>.EQ(p => p.UserEmail, userId),
+                         Update<StockWallet>.Push(p => p.OwnedStocks, stock),
+                         new MongoUpdateOptions
+                         {
+                             WriteConcern = WriteConcern.Acknowledged
+                         });
+            }
+
         }
 
         public void AddTransaction(string userId, string companySymbol, int stockNumber, TransactionHistory transactionHistory)
@@ -49,11 +72,11 @@ namespace StockTraderMongoService.Services
             var updateResult =
                 MongoConnectionHandler.MongoCollection.AsQueryable<StockWallet>()
                     .Where(p => p.UserEmail == userId);
-            
+
             var v = updateResult.FirstOrDefault();
             v.Money -= stockNumber * transactionHistory.StockPrice;
             var w = v.OwnedStocks.FirstOrDefault(p => p.CompanySymbol == companySymbol);
-            
+
             w.TransactionHistories.Add(transactionHistory);
             w.NumberOfStocks += stockNumber;
             MongoConnectionHandler.MongoCollection.Save(v);

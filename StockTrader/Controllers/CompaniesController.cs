@@ -55,6 +55,7 @@ namespace StockTrader.Controllers
                 });
             }
             var stockinfo2 = stockinfo.quote.FirstOrDefault(n => n.symbol == companySymbol);
+            var stockwallet = _stockWalletService.GetByUser(User.Identity.Name);
             var companies = new NewsForCompanies
             {
                 Change = stockinfo2.Change,
@@ -65,7 +66,7 @@ namespace StockTrader.Controllers
                 Volume = stockinfo2.Volume,
                 Company = list,
                 CompanySymbol = companySymbol,
-                IsObserve = _stockWalletService.GetByUser(User.Identity.Name).OwnedStocks.FirstOrDefault(n => n.CompanySymbol == companySymbol) != null
+                IsObserve = stockwallet != null ? !(stockwallet.OwnedStocks.FirstOrDefault(n => n.CompanySymbol == companySymbol) == null || !stockwallet.OwnedStocks.FirstOrDefault(n => n.CompanySymbol == companySymbol).IsObserved) : false
             };
             return PartialView(companies);
             //return Json(list, JsonRequestBehavior.AllowGet);

@@ -66,18 +66,11 @@ namespace StockDataWebApi.ApiRepository
             {
                 using (var wc = new WebClient())
                 {
-                    try
-                    {
-                        while (results == "")
-                        {
+                  
                             results =
                                 wc.DownloadString(
                                     @"http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22%2C%22LG%22%2C%22SSNLF%22%2C%20%22FB%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=");
-                        }
-                        }catch(Exception e)
-                    {
-                       
-                    }
+                     
                 }
 
 

@@ -41,7 +41,7 @@ namespace StockTrader.Controllers
             List<CompanyInfoForUserViewModel> stockwallet = new List<CompanyInfoForUserViewModel>();
             if (user != null)
             {
-                stockwallet = user.OwnedStocks.Select(n => new CompanyInfoForUserViewModel
+                stockwallet = user.OwnedStocks.Where(n => n.IsObserved).Select(n => new CompanyInfoForUserViewModel
                 {
                     
                     CompanyName = n.CompanyName,
@@ -58,18 +58,37 @@ namespace StockTrader.Controllers
             }
             var allstockvaluebytransactionprice = stockwallet.Aggregate(0.0,(previous, current) => previous + current.TotalValue);
             var allstockvaluebycurrentprice = stockwallet.Aggregate(0.0,(previous, current) => previous + (current.StocksNumber * StockValuesRepository.getValue(current.CompanySymbol)));
-            var userstatistics = new UserStatisticsWithOwnedCompanyInfo
+            if (user == null)
             {
-                UserMoney = user.Money,
-                OwnedCompanyInfo = stockwallet,
+                var userstatistics = new UserStatisticsWithOwnedCompanyInfo
+                {
+                    UserMoney = 100000,
+                    OwnedCompanyInfo = new List<CompanyInfoForUserViewModel>(),
 
-                AllStockValue = allstockvaluebycurrentprice,
-                Income = allstockvaluebycurrentprice - allstockvaluebytransactionprice,
-                AllValue = allstockvaluebycurrentprice + user.Money
+                    AllStockValue = 0,
+                    Income = 0,
+                    AllValue = 100000
 
-            };
+                };
 
-            return View(userstatistics);
+                return View(userstatistics);
+            }
+            else
+            {
+
+                var userstatistics = new UserStatisticsWithOwnedCompanyInfo
+                {
+                    UserMoney = user.Money,
+                    OwnedCompanyInfo = stockwallet,
+
+                    AllStockValue = allstockvaluebycurrentprice,
+                    Income = allstockvaluebycurrentprice - allstockvaluebytransactionprice,
+                    AllValue = allstockvaluebycurrentprice + user.Money
+
+                };
+
+                return View(userstatistics);
+            }
         }
 
         private List<NewsForCompanyWithoutStockInfo> GetNewsForCompany(string companySymbol)
@@ -108,7 +127,8 @@ namespace StockTrader.Controllers
             {
                 CompanyName = companyInfoForUserViewModel.CompanySymbol,
                 CompanySymbol = companyInfoForUserViewModel.CompanySymbol,
-                NumberOfStocks = 0
+                NumberOfStocks = 0,
+                IsObserved = true
             };
             if (user == null)
             {
@@ -137,6 +157,25 @@ namespace StockTrader.Controllers
             return PartialView(new TradeModel { CompanySymbol = companySymbol });
         }
 
+        
+        [HttpGet]
+        public ActionResult Delete(string companySymbol)
+        {
+
+            return PartialView(new TradeModel { CompanySymbol = companySymbol });
+        }
+
+   
+
+        [HttpPost]
+        public ActionResult Delete(TradeModel tradeModel)
+        {
+   
+                _stockWalletService.DeleteStock(User.Identity.Name,tradeModel.CompanySymbol);
+
+                return Json(new { Result = "Success" });
+    
+        }
       
 
         [HttpGet]
@@ -146,6 +185,7 @@ namespace StockTrader.Controllers
             return PartialView(new TradeModel { CompanySymbol = companySymbol });
         }
 
+       
 
 
 

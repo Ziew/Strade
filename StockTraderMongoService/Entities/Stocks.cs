@@ -12,6 +12,7 @@ namespace StockTraderMongoService.Entities
         {
             TransactionHistories = new List<TransactionHistory>();
         }
+        public bool IsObserved { get; set; }
         public string CompanyName { get; set; }
         public string CompanySymbol { get; set; }
         public int NumberOfStocks { get; set; }

@@ -355,6 +355,7 @@
     <Content Include="Views\StockWallet\Buy.cshtml" />
     <Content Include="Views\StockWallet\Sell.cshtml" />
     <Content Include="Views\Companies\GetNewsForCompany.cshtml" />
+    <Content Include="Views\StockWallet\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
