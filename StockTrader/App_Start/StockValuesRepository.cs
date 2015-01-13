@@ -9,10 +9,17 @@ using System.Web;
 
 namespace StockTrader.App_Start
 {
+    /// <summary>
+    /// Klasa, która służy do pobierania i wysyłania finansowych danych 
+    /// </summary>
     public class StockValuesRepository : IStockValuesRepository
     {
         public Dictionary<string, double> Companies;
 
+        /// <summary>
+        /// Metoda służąca do pobrania wartości akcji
+        /// </summary>
+        /// <param name="companySymbol">Symbol giełdowy firmy</param>
         public double getValue(string companySymbol)
         {
             try
@@ -25,6 +32,10 @@ namespace StockTrader.App_Start
             }
 
         }
+
+        /// <summary>
+        /// Konstruktor klasy w którym subksrybujemy
+        /// </summary>
 
         public StockValuesRepository(IStocksPoller stocksPoller)
         {

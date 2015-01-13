@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace StockTraderMongoService.Services
 {
+    /// <summary>
+    /// Interfejsy do serwisów
+    /// </summary>
     public interface IEntityService<T> where T : IMongoEntity
     {
+     
         void Create(T entity);
 
         void Delete(string id);

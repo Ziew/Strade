@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace StockTraderMongoService
 {
+    /// <summary>
+    /// Klasa służąca do łączenia z MongoDb
+    /// </summary>
     public class MongoConnectionHandler<T> where T : IMongoEntity
     {
         public MongoCollection<T> MongoCollection { get; private set; }
 
+        /// <summary>
+        /// Konstruktor klasy, ustalamy w nim adres i nazwe bazy z którą chcemy nawiązać połączenie
+        /// </summary>
         public MongoConnectionHandler()
         {
             const string connectionString = "mongodb://localhost";

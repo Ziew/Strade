@@ -11,6 +11,10 @@ using System.Web.Mvc;
 
 namespace StockTrader.Controllers
 {
+
+    /// <summary>
+    /// Klasa kontrolera do zarządzania użytkownikami
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {

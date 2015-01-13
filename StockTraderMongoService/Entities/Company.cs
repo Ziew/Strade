@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace StockTraderMongoService.Entities
 {
+    /// <summary>
+    /// Klasa
+    /// </summary>
       [BsonIgnoreExtraElements]
       public class Company : MongoEntity
     {

@@ -11,18 +11,32 @@ using MongoDB.Driver;
 
 namespace StockTraderMongoService.Services
 {
+
+    /// <summary>
+    /// Serwis dla portfela akcyjnego
+    /// </summary>
+
     public class StockWalletService : EntityService<StockWallet>
     {
         public override void Update(StockWallet entity)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Metoda służąca do pobrania obiektu z bazy po użytkowniku
+        /// </summary>
+        /// <param name="userEmail">Email użytkownika</param>
         public virtual StockWallet GetByUser(string userEmail)
         {
             var entityQuery = Query<StockWallet>.EQ(e => e.UserEmail, userEmail);
             return MongoConnectionHandler.MongoCollection.FindOne(entityQuery);
         }
+
+        /// <summary>
+        /// Metoda służąca do usunięcia z obserwowanych firmy z portfela akcyjnego
+        /// </summary>
+        /// <param name="userId">Email użytkownika</param>
+        /// <param name="companySymbol">symbol giełdowy firmy</param>
 
         public void DeleteStock(string userId, string companySymbol)
         {
@@ -39,6 +53,11 @@ namespace StockTraderMongoService.Services
             MongoConnectionHandler.MongoCollection.Save(v);
         }
 
+        /// <summary>
+        /// Metoda służąca do dodania do obserwowanych firmy w portfelu akcyjnym
+        /// </summary>
+        /// <param name="userId">Email użytkownika</param>
+        /// <param name="stock">obiekt z informacji o firmie</param>
         public void AddStock(string userId, Stocks stock)
         {
             var updateResult =
@@ -65,7 +84,13 @@ namespace StockTraderMongoService.Services
             }
 
         }
-
+        /// <summary>
+        /// Metoda służąca do dodania nowej transakcji
+        /// </summary>
+        /// <param name="userId">Email użytkownika</param>
+        /// <param name="companySymbol">Symbol giełdowy firmy</param>
+        /// <param name="stockNumber">Liczba akcji</param>
+        /// <param name="transactionHistory">Informacje o transakcji</param>
         public void AddTransaction(string userId, string companySymbol, int stockNumber, TransactionHistory transactionHistory)
         {
 

@@ -80,7 +80,7 @@
     <Compile Include="ApiRepository\IFinancialData.cs" />
     <Compile Include="ApiRepository\ProjectionEqualityComparer.cs" />
     <Compile Include="IStocksPoller.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="StocksPoller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

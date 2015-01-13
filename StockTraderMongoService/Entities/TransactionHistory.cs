@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using StockTraderMongoService.Entities;
 
 namespace StockTraderMongoService.Entities
-{
+{  
+    /// <summary>
+    /// Klasa służy do przechowywania transakcji jakie użytkownik wykonał
+    /// </summary>
     public class TransactionHistory : MongoEntity
     {
 

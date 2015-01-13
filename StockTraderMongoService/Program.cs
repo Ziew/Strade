@@ -12,14 +12,7 @@ namespace StockTraderMongoService
     {
         static void Main(string[] args)
         {
-            StockWalletService s = new StockWalletService();
-            var d = new TransactionHistory
-            {
-                NumberOfStock = 55,
-                StockPrice = 22.33,
-                TransactionDate = DateTime.Now
-            };
-            s.AddTransaction("asdqwe1@tlen.pl","GOOG", 555, d);
+
         }
     }
 }

@@ -2,6 +2,9 @@
 
 namespace StockDataWebApi.ApiRepository
 {
+    /// <summary>
+    /// Interfejs dla finansowych danych
+    /// </summary>
     public interface IFinancialData
     {
         Results GetFinancialDataFromCompany(String companyName);

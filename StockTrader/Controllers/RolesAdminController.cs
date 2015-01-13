@@ -11,6 +11,10 @@ using AspNet.Identity.MongoDB;
 
 namespace StockTrader.Controllers
 {
+
+    /// <summary>
+    /// Klasa kontrolera do zarządzania użytkownikami
+    /// </summary>
     [Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {

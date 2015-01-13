@@ -9,6 +9,9 @@ using System.Web.Mvc;
 
 namespace StockTrader.Controllers
 {
+    /// <summary>
+    /// Klasa kontrolera do zarządzania użytkownikami
+    /// </summary>
     [Authorize]
     public class ManageController : Controller
     {

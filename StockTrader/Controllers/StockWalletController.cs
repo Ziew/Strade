@@ -18,6 +18,10 @@ using Newtonsoft.Json.Linq;
 
 namespace StockTrader.Controllers
 {
+
+    /// <summary>
+    /// Klasa kontrolera służąca do kontroli działu aplikacji związaną z portfelem akcyjnym
+    /// </summary>
     [Authorize]
     public class StockWalletController : Controller
     {
@@ -25,6 +29,9 @@ namespace StockTrader.Controllers
         private IStockValuesRepository StockValuesRepository;
         private IFinancialData _financialData;
 
+        /// <summary>
+        /// Konstruktor klasy
+        /// </summary>
         public StockWalletController(IStockValuesRepository stockValuesRepository, IFinancialData financialData)
         {
             _stockWalletService = new StockWalletService();
@@ -32,10 +39,12 @@ namespace StockTrader.Controllers
             _financialData = financialData;
         }
 
+        /// <summary>
+        /// Metoda która przygotowuje dane dla głownego widoku
+        /// </summary>
+        /// <returns>Głowny widok z informacjami o obserwujących firmach</returns>
         public ActionResult Index()
         {
-
-           
 
             var user = _stockWalletService.GetByUser(User.Identity.Name);
             List<CompanyInfoForUserViewModel> stockwallet = new List<CompanyInfoForUserViewModel>();
@@ -91,6 +100,11 @@ namespace StockTrader.Controllers
             }
         }
 
+        /// <summary>
+        /// Metoda która pobiera nowości o wybranej firmie
+        /// </summary>
+        /// <param name="companySymbol">Symbol giełdowy firmy</param>
+        /// <returns>Lista objektów, które zawierają informacje giełdowe</returns>
         private List<NewsForCompanyWithoutStockInfo> GetNewsForCompany(string companySymbol)
         {
             dynamic jsonobject = JObject.Parse(_financialData.GetNewsForCompany(companySymbol));
@@ -112,12 +126,21 @@ namespace StockTrader.Controllers
             return list;
         }
 
+        /// <summary>
+        /// Metoda która przygotowuje dane dla widoku tworzenia
+        /// </summary>
+        /// <returns>Widok dla tworzenia</returns>
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Metoda która dodaje do obserwowanych wybraną firme
+        /// </summary>
+        /// <param name="companyInfoForUserViewModel">Objekt z informacjami o firmie którą będziemy obserwowac</param>
+        /// <returns>Widok</returns>
         [HttpPost]
         public ActionResult Create(CompanyInfoForUserViewModel companyInfoForUserViewModel)
         {
@@ -150,6 +173,11 @@ namespace StockTrader.Controllers
 
             return Json(null, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// Metoda która przygotowuje dane dla widoku kupowania akcji
+        /// </summary>
+        /// <param name="companySymbol">Symbol giełdowy firmy</param>
+        /// <returns>Widok dla kupowania akcji</returns>
         [HttpGet]
         public ActionResult Buy(string companySymbol )
         {
@@ -157,7 +185,11 @@ namespace StockTrader.Controllers
             return PartialView(new TradeModel { CompanySymbol = companySymbol });
         }
 
-        
+        /// <summary>
+        /// Metoda która przygotowuje dane dla widoku usuwania z obserwowanych
+        /// </summary>
+        /// <param name="companySymbol">Symbol giełdowy firmy</param>
+        /// <returns>Widok dla usuwania z obserwowanych</returns>
         [HttpGet]
         public ActionResult Delete(string companySymbol)
         {
@@ -165,8 +197,12 @@ namespace StockTrader.Controllers
             return PartialView(new TradeModel { CompanySymbol = companySymbol });
         }
 
-   
 
+        /// <summary>
+        /// Metoda która usuwa z obserwowanych
+        /// </summary>
+        /// <param name="tradeModel">Informacje o transakcji</param>
+        /// <returns>Informacja czy się powiodło</returns>
         [HttpPost]
         public ActionResult Delete(TradeModel tradeModel)
         {
@@ -176,8 +212,12 @@ namespace StockTrader.Controllers
                 return Json(new { Result = "Success" });
     
         }
-      
 
+        /// <summary>
+        /// Metoda która przygotowuje dane dla widoku sprzedawania akcji
+        /// </summary>
+        /// <param name="companySymbol">Symbol giełdowy firmy</param>
+        /// <returns>Widok dla sprzedawania akcji</returns>
         [HttpGet]
         public ActionResult Sell(string companySymbol)
         {
@@ -185,10 +225,14 @@ namespace StockTrader.Controllers
             return PartialView(new TradeModel { CompanySymbol = companySymbol });
         }
 
-       
 
 
 
+        /// <summary>
+        /// Metoda która kupuje akcje wybranej firmy
+        /// </summary>
+        /// <param name="tradeModel">Informacje o transakcji</param>
+        /// <returns>Informacja czy się powiodło</returns>
         [HttpPost]
         public ActionResult Buy(TradeModel tradeModel)
         {
@@ -210,6 +254,11 @@ namespace StockTrader.Controllers
             }
             return Json(new { Result = "Failed", Transaction = "Buy" });
         }
+        /// <summary>
+        /// Metoda która sprzedaje akcje wybranej firmy
+        /// </summary>
+        /// <param name="tradeModel">Informacje o transakcji</param>
+        /// <returns>Informacja czy się powiodło</returns>
         public ActionResult Sell(TradeModel tradeModel)
         {
             var user = _stockWalletService.GetByUser(User.Identity.Name).OwnedStocks.FirstOrDefault(n => n.CompanySymbol == tradeModel.CompanySymbol);

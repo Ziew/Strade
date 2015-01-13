@@ -9,12 +9,18 @@ using Newtonsoft.Json.Linq;
 
 namespace StockTrader.Controllers
 {
+    /// <summary>
+    /// Klasa kontrolera służąca do kontroli działu aplikacji związaną z firmami
+    /// </summary>
     public class CompaniesController : Controller
     {
         private readonly IEntityService<Company> _entityService;
         private IFinancialData _financialData;
         private StockWalletService _stockWalletService;
 
+        /// <summary>
+        /// Konstruktor klasy
+        /// </summary>
         public CompaniesController(IEntityService<Company> entityService, IFinancialData financialData)
         {
             _stockWalletService = new StockWalletService();
@@ -22,6 +28,10 @@ namespace StockTrader.Controllers
             _financialData = financialData;
         }
 
+        /// <summary>
+        /// Metoda która przygotowuje dane do wyświetlenia w widoku
+        /// </summary>
+        /// <returns>Główny widok strony</returns>
         public ActionResult Index()
         {
             var financialData = _financialData.GetFinancialDataFromCompanies();
@@ -30,12 +40,21 @@ namespace StockTrader.Controllers
             return View(companies);
         }
 
+        /// <summary>
+        /// Metoda która przygotowuje widok do tworzenia firm
+        /// </summary>
+        /// <returns>Widok dla tworzenia nowych firm</returns>
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Metoda która przygotowuje widok z informacjami o wybranej firmie
+        /// </summary>
+        /// <param name="companySymbol">Symbol giełdowy firmy</param>
+        /// <returns>Widok dla nowości i informacji o firmie</returns>
         public ActionResult GetNewsForCompany(string companySymbol)
         {
             dynamic jsonobject = JObject.Parse(_financialData.GetNewsForCompany(companySymbol));

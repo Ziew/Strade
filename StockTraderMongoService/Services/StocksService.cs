@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace StockTraderMongoService.Services
 {
+    /// <summary>
+    /// Serwis dla akcji firm
+    /// </summary>
     public class StocksService : EntityService<Stocks>
     {
         public override void Update(Stocks entity)

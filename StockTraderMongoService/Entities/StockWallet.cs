@@ -8,6 +8,9 @@ using MongoDB.Bson.Serialization.Serializers;
 
 namespace StockTraderMongoService.Entities
 {
+    /// <summary>
+    /// Klasa służy do przechowywania portfela aukcyjnego użytkownika
+    /// </summary>
     public class StockWallet : MongoEntity
     {
       

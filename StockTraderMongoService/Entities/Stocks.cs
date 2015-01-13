@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace StockTraderMongoService.Entities
 {
+    /// <summary>
+    /// Klasa służy do przechowywania informacji o firmie, ktorą użytkownik posiada w swoim portfelu akcyjnym
+    /// </summary>
     public class Stocks : MongoEntity
     {
         public Stocks()

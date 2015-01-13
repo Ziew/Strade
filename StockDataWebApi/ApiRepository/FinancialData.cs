@@ -13,7 +13,9 @@ using System.IO;
 namespace StockDataWebApi.ApiRepository
 {
 
-
+    /// <summary>
+    /// Klasa do której zapisujemy informacje parsowane z Jsona, które pobraliśmy web service
+    /// </summary>
     public class Quote
     {
         public string symbol { get; set; }
@@ -31,14 +33,23 @@ namespace StockDataWebApi.ApiRepository
         public string Volume { get; set; }
         public string StockExchange { get; set; }
     }
-
+    /// <summary>
+    /// Klasa do której zapisujemy informacje parsowane z Jsona, które pobraliśmy web service
+    /// </summary>
     public class Results
     {
         public List<Quote> quote { get; set; }
     }
 
+    /// <summary>
+    /// Klasa dla pobierania danych z web serviców
+    /// </summary>
     public class FinancialData : IFinancialData
     {
+        /// <summary>
+        /// Metoda służąca do pobrania informacji giełdowych dla wybranej firmy
+        /// </summary>
+        /// <param name="companyName">Symbol giełdowy firmy</param>
         public Results GetFinancialDataFromCompany(String companyName)
         {
             string results = "";
@@ -57,7 +68,9 @@ namespace StockDataWebApi.ApiRepository
 
 
 
-
+        /// <summary>
+        /// Metoda służąca do pobrania informacji giełdowych dla wszystkich firm
+        /// </summary>
         public Results GetFinancialDataFromCompanies()
         {
             var results = "";
@@ -93,7 +106,10 @@ namespace StockDataWebApi.ApiRepository
 
             return d;
         }
-
+        /// <summary>
+        /// Metoda służąca do pobrania informacji giełdowych dla wybranej firmy
+        /// </summary>
+        /// <param name="companyName">Symbol giełdowy firmy</param>
         public string GetNewsForCompany(string companyName)
         {
             var results = "";

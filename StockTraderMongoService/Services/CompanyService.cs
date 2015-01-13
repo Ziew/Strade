@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace StockTraderMongoService.Services
 {
+    /// <summary>
+    /// Serwis do zarządzania obiektami klasy Company w bazie danych
+    /// </summary>
     public class CompanyService : EntityService<Company>
     {
 
