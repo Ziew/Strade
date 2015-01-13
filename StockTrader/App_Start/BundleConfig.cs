@@ -2,9 +2,15 @@
 
 namespace StockTrader
 {
+    /// <summary>
+    /// Klasa, która służy do rejestrowania skryptów używanych w aplikacji
+    /// </summary>
     public class BundleConfig
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+        /// <summary>
+        /// MEtoda, w której rejestrowane są skrypty używane w aplikacji
+        /// </summary>
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

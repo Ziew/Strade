@@ -5,6 +5,9 @@ using System.Web;
 
 namespace StockTrader.Models
 {
+    /// <summary>
+    /// Klasa, która służy do przesyłania informacji o danych giełdowych firmy dla użytkownika
+    /// </summary>
     public class CompanyInfoForUserViewModel
     {
 
@@ -18,7 +21,9 @@ namespace StockTrader.Models
         public List<NewsForCompanyWithoutStockInfo> Company { get; set; }
 
     }
-
+    /// <summary>
+    /// Klasa, która służy do przechowywania statystyk dla portfela akcyjnego użytkownika
+    /// </summary>
     public class UserStatisticsWithOwnedCompanyInfo
     {
         public double AllStockValue { get; set; }

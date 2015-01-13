@@ -6,6 +6,9 @@ using StockDataWebApi.ApiRepository;
 
 namespace StockTrader.Models
 {
+    /// <summary>
+    /// Klasa, która służy do przesyłania informacji o artykułach 
+    /// </summary>
     public class NewsForCompany
     {
         public string Header { get; set; }
@@ -18,7 +21,9 @@ namespace StockTrader.Models
 
         //public List<Image> Charts { get; set; }
     }
-
+    /// <summary>
+    /// Klasa, która służy do przesyłania informacji o danych giełdowych firmy oraz o nowościach 
+    /// </summary>
     public class NewsForCompanies
     {
         public string CompanyName { get; set; }
@@ -35,6 +40,9 @@ namespace StockTrader.Models
         public List<NewsForCompany> Company { get; set; }
     }
 
+    /// <summary>
+    /// Klasa, która służy do przesyłania informacji o artykułach 
+    /// </summary>
     public class NewsForCompanyWithoutStockInfo
     {
         public string Header { get; set; }

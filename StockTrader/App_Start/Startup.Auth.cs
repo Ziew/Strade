@@ -15,6 +15,7 @@ using Microsoft.Practices.Unity;
 
 namespace StockTrader
 {
+    
     public class SignalRUnityDependencyResolver : DefaultDependencyResolver
     {
         private IUnityContainer _container;

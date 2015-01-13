@@ -5,6 +5,9 @@ using System.Web;
 
 namespace StockTrader.Models
 {
+    /// <summary>
+    /// Klasa, która służy do przechowywania informacji o transakcji
+    /// </summary>
     public class TradeModel
     {
         public string CompanySymbol { get; set; }
